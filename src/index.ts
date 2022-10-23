@@ -15,6 +15,8 @@ export default {
     const query = request.url.split('?')[1]
     const params = new URLSearchParams(query)
 
+    // TODO: Authentication
+
     // Tokens
     const accessToken = await env.BAN_CHECKRRR.get(KV_NAMESPACE_KEYS.access_token)
     const refreshToken = await env.BAN_CHECKRRR.get(KV_NAMESPACE_KEYS.refresh_token)
@@ -25,6 +27,7 @@ export default {
 
     const broadcasterUserId = await env.BAN_CHECKRRR.get(KV_NAMESPACE_KEYS.broadcaster_user_id)
 
+    // If we don't have all the required values in the KV namespace, throw
     if (!accessToken || !broadcasterUserId || !twitchClientId || !refreshToken || !twitchClientSecret) {
       return new Response(JSON.stringify({
         error: 'Server Configuration Error'
@@ -36,6 +39,7 @@ export default {
       })
     }
 
+    // Query param ?user_id is required
     const userId = params.get('user_id')
     if (!userId) {
       return new Response(JSON.stringify({
@@ -49,7 +53,7 @@ export default {
     }
 
     try {
-      // First attempt
+      // First attempt to verify if the user is banned using the access token
       const isBanned = await isUserBanned({
         token: accessToken,
         userId,
@@ -57,55 +61,64 @@ export default {
         twitchClientId,
       })
 
-      const response = {
+      return new Response(JSON.stringify({
         is_banned: isBanned,
-      }
-
-      return new Response(JSON.stringify(response), {
+      }), {
         status: 200,
         headers: {
           'content-type': 'application/json;charset=UTF-8',
         }
       });
     } catch (e) {
-      console.error('🔥 handler error', e)
+      console.error('🔥 isUserBanned failed (1)', e)
 
       // If fails, try again but refresh the token first.
-
-      const { access_token: accessToken } = await performTokenRefresh({
-        refreshToken,
-        twitchClientSecret,
-        twitchClientId,
-      })
-
-      // Store the new access token
-      await env.BAN_CHECKRRR.put(KV_NAMESPACE_KEYS.access_token, accessToken)
-
       try {
-        const isBanned = await isUserBanned({
-          token: accessToken,
-          userId,
-          broadcasterUserId,
+        const { access_token: accessToken } = await performTokenRefresh({
+          refreshToken,
+          twitchClientSecret,
           twitchClientId,
         })
 
-        const response = {
-          is_banned: isBanned,
-        }
+        // Store the new access token
+        await env.BAN_CHECKRRR.put(KV_NAMESPACE_KEYS.access_token, accessToken)
 
-        return new Response(JSON.stringify(response), {
-          status: 200,
-          headers: {
-            'content-type': 'application/json;charset=UTF-8',
-          }
-        });
+        // Try again after refreshing the access token
+        try {
+          const isBanned = await isUserBanned({
+            token: accessToken,
+            userId,
+            broadcasterUserId,
+            twitchClientId,
+          })
+
+          return new Response(JSON.stringify({
+            is_banned: isBanned,
+          }), {
+            status: 200,
+            headers: {
+              'content-type': 'application/json;charset=UTF-8',
+            }
+          });
+        } catch (e) {
+          console.error('🔥 isUserBanned failed (2)', e)
+
+          return new Response(JSON.stringify({
+            error: 'Unknown Server Error'
+          }), {
+            status: 500,
+            headers: {
+              'content-type': 'application/json;charset=UTF-8',
+            },
+          })
+        }
       } catch (e) {
         console.error('🔥 Failed to fetch after refreshing the token')
 
         return new Response(JSON.stringify({
-          error: 'Unknown Server Error'
+          error: 'Authorization Error'
         }), {
-          status: 500,
+          status: 403,
           headers: {
             'content-type': 'application/json;charset=UTF-8',
           },
