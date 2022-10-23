@@ -4,7 +4,7 @@
   - [Register an application with Twitch](#register-an-application-with-twitch)
   - [Creating access tokens with Twitch CLI](#creating-access-tokens-with-twitch-cli)
 - [Setup the infrastructure on Cloudflare](#setup-the-infrastructure-on-cloudflare)
-  - [Storing the Tokens](#storing-the-tokens)
+  - [Storing the Environment Variables](#storing-the-environment-variables)
 
 
 ## Setup
@@ -48,13 +48,25 @@ Here are some references:
 - [KV Namespaces](https://developers.cloudflare.com/workers/runtime-apis/kv/)
 
 
-### Storing the Tokens
+### Storing the Environment Variables
 
-Store the tokens in your new KV namespace. Run the following command:
+You will need to store the access token and the refresh token in the environment using KV namespaces.
+
+    npx wrangler kv:key put <key> <value> --namespace-id <namespace-id>
+
+Here is how you can store the user access token:
 
     npx wrangler kv:key put access_token <YOUR_ACCESS_TOKEN> --namespace-id <YOUR_NAMESPACE_ID>
 
-Do the same with the refresh tokeN:
+And the refresh token:
 
     npx wrangler kv:key put refresh_token <YOUR_REFRESH_TOKEN> --namespace-id <YOUR_NAMESPACE_ID>
 
+The full list of constants that are required to be stored in KV are available in the `./src/constants.ts` file.
+
+- `access_token` – Generated using the Twitch CLI
+- `refresh_token` – Generated using the Twitch CLI
+- `twitch_client_id` – from the Twitch Dev dashboard
+- `twitch_client_secret` – from the Twitch Dev dashboard
+- `broadcaster_user_id` – your user ID
+- `hmac_secret` – a randomly-generated secret to use for server-to-server communication
