@@ -8,6 +8,7 @@ This solution is tightly-coupled to the Cloudflare platform. It deploys to Cloud
 
 You can learn more about the motivations for this project on [my blog](https://blog.techygrrrl.stream).
 
+- [Using this Code](#using-this-code)
 - [Setup on Twitch](#setup-on-twitch)
   - [Register an application with Twitch](#register-an-application-with-twitch)
   - [Creating access tokens with Twitch CLI](#creating-access-tokens-with-twitch-cli)
@@ -30,6 +31,15 @@ You can learn more about the motivations for this project on [my blog](https://b
     - [Response](#response)
     - [Errors](#errors)
 - [Contributing to this project](#contributing-to-this-project)
+
+
+## Using this Code
+
+If you would like to use the code as-is, you can click the "Use this template" button.
+
+If you would like to contribute to the project, it's recommended to fork it so you can contribute changes to the upstream repository. 
+
+You can also do both.
 
 
 ## Setup on Twitch
