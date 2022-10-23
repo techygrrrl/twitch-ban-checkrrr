@@ -5,6 +5,11 @@ import { compare } from "./string-utils";
 
 export interface Env {
   BAN_CHECKRRR: KVNamespace;
+  HMAC_SECRET: string
+  TWITCH_CLIENT_ID: string
+  TWITCH_CLIENT_SECRET: string
+  REFRESH_TOKEN: string
+  BROADCASTER_USER_ID: string
 }
 
 
@@ -22,16 +27,15 @@ export default {
 
     // Tokens
     const accessToken = await env.BAN_CHECKRRR.get(KV_NAMESPACE_KEYS.access_token)
-    const refreshToken = await env.BAN_CHECKRRR.get(KV_NAMESPACE_KEYS.refresh_token)
+    const { 
+      REFRESH_TOKEN: refreshToken,
+      TWITCH_CLIENT_ID: twitchClientId,
+      TWITCH_CLIENT_SECRET: twitchClientSecret,
+      HMAC_SECRET: hmacSecret,
+      BROADCASTER_USER_ID: broadcasterUserId
+    } = env;
 
-    // Credentials
-    const twitchClientId = await env.BAN_CHECKRRR.get(KV_NAMESPACE_KEYS.twitch_client_id)
-    const twitchClientSecret = await env.BAN_CHECKRRR.get(KV_NAMESPACE_KEYS.twitch_client_secret)
-    const hmacSecret = await env.BAN_CHECKRRR.get(KV_NAMESPACE_KEYS.hmac_secret)
-
-    const broadcasterUserId = await env.BAN_CHECKRRR.get(KV_NAMESPACE_KEYS.broadcaster_user_id)
-
-    // If we don't have all the required values in the KV namespace, throw
+    // If we don't have all the required values, throw
     if (!accessToken || !broadcasterUserId || !twitchClientId || !refreshToken || !twitchClientSecret || !hmacSecret) {
       return new Response(JSON.stringify({
         error: 'Server Configuration Error'
