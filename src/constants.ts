@@ -4,4 +4,5 @@ export const KV_NAMESPACE_KEYS = {
   twitch_client_id: 'twitch_client_id',
   broadcaster_user_id: 'broadcaster_user_id',
   twitch_client_secret: 'twitch_client_secret',
+  hmac_secret: 'hmac_secret',
 };
