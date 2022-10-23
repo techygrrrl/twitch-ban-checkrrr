@@ -6,7 +6,7 @@ This tool was made to make checking your ban list simpler so that streamers can 
 
 This solution is tightly-coupled to the Cloudflare platform. It deploys to Cloudflare Workers and can be used within their [generous free tier](https://developers.cloudflare.com/workers/platform/pricing).
 
-You can learn more about the motivations for this project on [my blog](https://blog.techygrrrl.stream).
+You can learn more about the motivations for this project on [my blog](https://blog.techygrrrl.stream/ban-checker-twitch-javascript-serverless-cloudflare).
 
 - [Using this Code](#using-this-code)
 - [Setup on Twitch](#setup-on-twitch)
