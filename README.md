@@ -163,11 +163,11 @@ You can also use Python to generate random strings. I made [these aliases](https
 
 ### Storing your current access token in KV Namespaces
 
-Also for that reason, we need to set the value twice, once for each namespace.
-
 You can do so with the following command:
 
     npx wrangler kv:key put access_token <YOUR_ACCESS_TOKEN> --namespace-id <YOUR_NAMESPACE_ID>
+
+If you are running it locally in development, you will need to create a preview namespace as described above and add it to both the preview and production namespaces.
 
 
 ## Usage
