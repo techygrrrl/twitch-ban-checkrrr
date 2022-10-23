@@ -1,3 +1,6 @@
 name = "techygrrrl-ban-checkrrr"
 main = "src/index.ts"
 compatibility_date = "2022-10-23"
+kv_namespaces = [
+  { binding = "BAN_CHECKRRR", id = "30868e5202eb4676b74ea3519419f79c", preview_id = "00081d85069a4d12a9906189be6aa2b7" }
+]
