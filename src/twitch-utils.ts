@@ -19,6 +19,14 @@ type GetBannedUsersResponse = {
   }[]
 }
 
+/**
+ * Verifies if the user is banned in the provided broadcaster's channel.
+ * The broadcaster ID must match the owner of the bearer token.
+ * @param token
+ * @param twitchClientId
+ * @param userId
+ * @param broadcasterUserId
+ */
 export const isUserBanned = async ({
   token,
   twitchClientId,
@@ -59,7 +67,10 @@ type TokenRefreshResponse = {
 }
 
 /**
- * Donné un refresh token, refrèche-le!
+ * Performs a token refresh with the given refresh token and Twitch credentials
+ * @param refreshToken
+ * @param twitchClientId
+ * @param twitchClientSecret
  */
 export const performTokenRefresh = async ({
   refreshToken,
@@ -93,9 +104,7 @@ export const performTokenRefresh = async ({
     }
 
     const response = await fetch(url, requestOptions)
-    const json = response.json<TokenRefreshResponse>()
-
-    return json
+    return await response.json<TokenRefreshResponse>()
   } catch (e) {
     console.error('🔥 Token Refresh error', e)
     return Promise.reject('🔥 Token Refresh error')

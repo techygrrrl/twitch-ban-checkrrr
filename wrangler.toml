@@ -1,4 +1,4 @@
-name = "techygrrrl-ban-checkrrr"
+name = "ban-checkrrr"
 main = "src/index.ts"
 compatibility_date = "2022-10-23"
 kv_namespaces = [

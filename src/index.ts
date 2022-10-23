@@ -1,12 +1,16 @@
 import { KV_NAMESPACE_KEYS } from "./constants";
 import { isUserBanned, performTokenRefresh } from "./twitch-utils";
 import { getBearerTokenFromRequestHeaders } from "./http-utils";
+import { compare } from "./string-utils";
 
 export interface Env {
-  // Example binding to KV. Learn more at https://developers.cloudflare.com/workers/runtime-apis/kv/
   BAN_CHECKRRR: KVNamespace;
 }
 
+
+/**
+ * Cloudflare Worker entry point
+ */
 export default {
   async fetch(
     request: Request,
@@ -15,8 +19,6 @@ export default {
   ): Promise<Response> {
     const query = request.url.split('?')[1]
     const params = new URLSearchParams(query)
-
-
 
     // Tokens
     const accessToken = await env.BAN_CHECKRRR.get(KV_NAMESPACE_KEYS.access_token)
@@ -42,7 +44,7 @@ export default {
     }
 
     const authToken = getBearerTokenFromRequestHeaders(request)
-    if (!authToken || hmacSecret !== authToken) {
+    if (!authToken || !compare(hmacSecret, authToken)) {
       return new Response(JSON.stringify({
         error: 'Unauthorized'
       }), {
