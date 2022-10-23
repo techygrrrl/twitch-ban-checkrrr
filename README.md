@@ -103,10 +103,16 @@ You can see all your namespaces created under your account with the following co
 
     npx wrangler kv:namespace list
 
+If you are not planning on contributing to the project, you may not need to run your project locally and can potentially get away with only a single KV Namespace.
 
 ### Setting environment secrets
 
 You will need to run the following lines, one at a time, and paste the credential when prompted.
+
+When you're done, your dashboard should look like this (all of the secrets configured).
+
+![](cfw-secrets.png)
+
 
 #### Twitch Client ID
 
