@@ -1,0 +1,6 @@
+name = "ban-checkrrr"
+main = "src/index.ts"
+compatibility_date = "2022-10-23"
+kv_namespaces = [
+  { binding = "BAN_CHECKRRR", id = "___PRODUCTION_ID___", preview_id = "___DEVELOPMENT_ID___" }
+]
