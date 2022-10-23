@@ -2,4 +2,4 @@ blank_issues_enabled: true
 contact_links:
   - name: ❗️ Report a Code of Conduct violation
     url: https://form.jotform.com/222956778208065
-    about: If you see an issue or comment that looks like it has violated the [Code of Conduct](https://github.com/techygrrrl/twitch-ban-checkrrr/blob/main/code-of-conduct.md), you can submit a report under your name, username, or anonymously.
+    about: If you see an issue or comment that looks like it has violated the Code of Conduct, you can submit a report under your name, username, or anonymously.
