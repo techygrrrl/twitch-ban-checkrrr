@@ -52,6 +52,9 @@ Follow the instructions in the official Twitch documentation for how to register
 
 It will need to be an application not an extension.
 
+When you register, choose a name like `{my_username} ban checkrrr` or similar. Applications are registered globally on Twitch, so it's a good idea to ensure that your username is present.
+
+
 ### Creating access tokens with Twitch CLI
 
 You'll need to create an access token with the following scopes:
