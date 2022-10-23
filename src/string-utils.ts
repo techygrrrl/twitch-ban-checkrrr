@@ -4,6 +4,8 @@
  * @param b
  */
 export const compare = (a: string, b: string): boolean => {
+  if (a.length !== b.length) return false
+
   const leftBuff = stringToArrayBuffer(a)
   const rightBuff = stringToArrayBuffer(b)
 
